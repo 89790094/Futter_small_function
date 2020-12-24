@@ -137,5 +137,61 @@ Transform.scale(
 
 /** 隐藏/显示某`widget`组件、切换显示状态 **/
 
+/// 方案一: 直接判断
+// 存储"是否显示"状态
+  bool _isShow = true;
+  _isShow
+  ? Text('一个文本Widget',
+      style: Theme.of(context).textTheme.headline3)
+  : Container(),
+  
+RaisedButton(
+    child: Text(
+      _isShow ? "隐藏" : "显示",
+      style: Theme.of(context).textTheme.headline5,
+    ),
+    onPressed: () {
+      setState(() {
+        _isShow = !_isShow;
+      });
+    },
+  )
+  
+ /// 方案二: 使用`Visibility`
+ 
+ bool _isShow = true;
+ Visibility(
+    child: Text(
+      '一个文本Widget',
+      style: Theme.of(context).textTheme.headline3,
+    ),
+    maintainSize: true,  //maintainSize为true时, 显示/隐藏不会影响排版.
+    maintainAnimation: true,
+    maintainState: true,
+    visible: _isShow,
+  ),
+
+/** 隐藏/移除导航栏的默认返回按钮 **/
+
+/// 方法一: 替换AppBar的leading
+appBar: AppBar(
+  leading: Container(),
+  title: Text("Second Page"),
+),
+
+/// 方法二: Navigator.pushAndRemoveUntil()
+
+Navigator.pushAndRemoveUntil(context,
+    MaterialPageRoute(builder: (context) {
+  return SecondPage();
+}), (route) => route == null);
+
+/** 实现毛玻璃/磨砂效果 **/
+
+ConstrainedBox(
+    constraints: BoxConstraints.expand(),
+    child: FlutterLogo()),
+
+/**  **/
 
  
